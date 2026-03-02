@@ -1,20 +1,17 @@
-import { View, Text } from "react-native";
-import { Redirect} from "expo-router";
-import { Stack } from 'expo-router'
-import { useAuth } from '@clerk/clerk-expo'
+import { Redirect } from "expo-router";
+import { useAuth } from "@clerk/clerk-expo";
 
-export default function AuthRoutesLayout() {
+export default function Index() {
+  const { isSignedIn, isLoaded } = useAuth();
 
-const Home = () => {
-    const { isSignedIn } = useAuth()
+  // Wait until Clerk loads
+  if (!isLoaded) return null;
 
-      if (isSignedIn) {
-        return <Redirect href= "/(root)/(tabs)/home" />
-      }
+  // If logged in → go to app
+  if (isSignedIn) {
+    return <Redirect href="/(root)/(tabs)/home" />;
+  }
 
-      return <Stack />
-    }
-
-  return <Redirect href ="/(auth)/welcome"/>;
-};
-export default Home;
+  // If not logged in → go to welcome/auth
+  return <Redirect href="/(auth)/welcome" />;
+}
