@@ -7,7 +7,9 @@ import CustomButton from "@/components/CustomButton";
 import OAuth from "@/components/OAuth"
 import { Link, useRouter } from "expo-router";
 import { useSignUp } from '@clerk/clerk-expo'
+import { fetchAPI } from "@/lib/fetch"; // ✅ Add this
 import ReactNativeModal from "react-native-modal";
+
 const SignUp = () => {
     const { isLoaded, signUp, setActive } = useSignUp()
   const [form, setForm] = useState({
@@ -66,7 +68,7 @@ const SignUp = () => {
               body: JSON.stringify({
                   name: form.name,
                   email: form.email,
-                  clerkId: completeSignUp.createdUserId,
+                  clerkId: signUpAttempt.createdUserId,
                   }),
               });
         await setActive({
