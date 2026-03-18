@@ -1,4 +1,0 @@
-[04:23:38.471] Server  ERROR   Error: ENOENT: no such file or directory, scandir 'C:\Users\codea\AndroidStudioProjects\Uberclone\ryde-backend\app'
-[04:23:38.481] Server  ERROR   ⨯ "unhandledRejection:" Error: ENOENT: no such file or directory, scandir 'C:\Users\codea\AndroidStudioProjects\Uberclone\ryde-backend\app'
-[04:23:38.487] Server  ERROR   ⨯ "unhandledRejection: " Error: ENOENT: no such file or directory, scandir 'C:\Users\codea\AndroidStudioProjects\Uberclone\ryde-backend\app'
-[04:23:38.497] Server  LOG     ✓ Compiled in 711ms

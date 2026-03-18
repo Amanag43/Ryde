@@ -1,4 +1,4 @@
-import { ScrollView, Text, View, Image, Alert} from "react-native";
+import { ScrollView, Text, View, Image} from "react-native";
 import { useState } from "react";
 import { images } from "@/constants/onboarding";
 import { icons } from "@/constants/onboarding";

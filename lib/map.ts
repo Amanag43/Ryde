@@ -34,8 +34,8 @@ export const calculateRegion = ({
 }) => {
   if (userLatitude == null || userLongitude == null) {
     return {
-      latitude: 28.6139,   // ✅ Default to Delhi instead of San Francisco
-      longitude: 77.2090,
+      latitude: 37.78825,
+      longitude: -122.4324,
       latitudeDelta: 0.01,
       longitudeDelta: 0.01,
     };
@@ -63,28 +63,21 @@ export const calculateRegion = ({
   };
 };
 
+// ✅ Replaced Google Directions API with free OSRM
 const getOSRMDuration = async (
   fromLat: number,
   fromLng: number,
   toLat: number,
   toLng: number
-): Promise<{ duration: number; distance: number }> => {
-  try {
-    const response = await fetch(
-      `https://router.project-osrm.org/route/v1/driving/${fromLng},${fromLat};${toLng},${toLat}?overview=false`
-    );
-    const data = await response.json();
-    if (data.routes && data.routes.length > 0) {
-      return {
-        duration: data.routes[0].duration, // seconds
-        distance: data.routes[0].distance, // meters
-      };
-    }
-  } catch (err) {
-    console.error("OSRM error:", err);
+): Promise<number> => {
+  const response = await fetch(
+    `https://router.project-osrm.org/route/v1/driving/${fromLng},${fromLat};${toLng},${toLat}?overview=false`
+  );
+  const data = await response.json();
+  if (data.routes && data.routes.length > 0) {
+    return data.routes[0].duration; // seconds
   }
-
-  // Fallback — straight line estimate
+  // ✅ Fallback: estimate based on straight-line distance if OSRM fails
   const R = 6371e3;
   const dLat = ((toLat - fromLat) * Math.PI) / 180;
   const dLng = ((toLng - fromLng) * Math.PI) / 180;
@@ -94,19 +87,7 @@ const getOSRMDuration = async (
       Math.cos((toLat * Math.PI) / 180) *
       Math.sin(dLng / 2) ** 2;
   const distance = R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return {
-    duration: (distance / 1000 / 40) * 3600,
-    distance,
-  };
-};
-
-// ✅ Realistic Indian Uber pricing
-const calculatePrice = (distanceMeters: number): string => {
-  const distanceKm = distanceMeters / 1000;
-  const baseFare = 30;          // ₹30 base fare
-  const perKmRate = 12;         // ₹12 per km
-  const total = baseFare + distanceKm * perKmRate;
-  return Math.round(total).toString(); // ✅ round to whole number — no decimals
+  return (distance / 1000 / 50) * 3600; // assume 50km/h
 };
 
 export const calculateDriverTimes = async ({
@@ -123,37 +104,33 @@ export const calculateDriverTimes = async ({
   destinationLongitude: number | null;
 }) => {
   if (
-    userLatitude == null ||
-    userLongitude == null ||
-    destinationLatitude == null ||
-    destinationLongitude == null
+   userLatitude == null ||
+       userLongitude == null ||
+       destinationLatitude == null ||
+       destinationLongitude == null
   )
     return;
 
   try {
-    const userToDestination = await getOSRMDuration(
-      userLatitude,
-      userLongitude,
-      destinationLatitude,
-      destinationLongitude
-    );
+       const userToDestinationTime = await getOSRMDuration(
+            userLatitude,
+            userLongitude,
+            destinationLatitude,
+            destinationLongitude
+          );
 
     const timesPromises = markers.map(async (marker) => {
-      const driverToUser = await getOSRMDuration(
+      // ✅ Driver to user
+      const driverToUserTime = await getOSRMDuration(
         marker.latitude,
         marker.longitude,
         userLatitude,
         userLongitude
       );
+      const totalTime = (driverToUserTime + userToDestinationTime) / 60; // minutes
+      const price = (totalTime * 0.5).toFixed(2);
 
-      const totalTimeMinutes = (driverToUser.duration + userToDestination.duration) / 60;
-      const totalDistance = driverToUser.distance + userToDestination.distance;
-
-      return {
-        ...marker,
-        time: Math.round(totalTimeMinutes * 10) / 10, // ✅ 1 decimal e.g. 6.5
-        price: calculatePrice(totalDistance),          // ✅ ₹ based on distance
-      };
+      return { ...marker, time: totalTime, price };
     });
 
     return await Promise.all(timesPromises);
