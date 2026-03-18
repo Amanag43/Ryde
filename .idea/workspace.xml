@@ -4,42 +4,24 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="27ec28a4-6a8b-4d6c-b038-9e84d3bb73f2" name="Changes" comment="added auth featurew and verification of email and home tab bar">
-      <change afterPath="$PROJECT_DIR$/app/(api)/(stripe)/create+api.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/(api)/(stripe)/pay+api.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/(api)/directions+api.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/(api)/driver+api.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/(api)/ride/[id]+api.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/(api)/ride/create+api.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/(root)/book-ride.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/(root)/confirm-ride.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/(root)/find-ride.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/+html.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/+not-found.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/DriverCard.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/GoogleTextInput.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/Map.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/Payment.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/RideCard.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/RideLayout.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/auth.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/map.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/utils.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/store/index.ts" afterDir="false" />
+    <list default="true" id="27ec28a4-6a8b-4d6c-b038-9e84d3bb73f2" name="Changes" comment="maps added with open street map rider card added &#10;driver card added &#10;payement gateway added">
+      <change afterPath="$PROJECT_DIR$/assets/icons/rupee.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/eas.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.json" beforeDir="false" afterPath="$PROJECT_DIR$/app.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/(api)/user+api.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(api)/user+api.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(api)/(stripe)/create+api.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(api)/(stripe)/pay+api.ts" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/(auth)/sign-up.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(auth)/sign-up.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/(root)/(tabs)/chat.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(root)/(tabs)/chat.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/(root)/(tabs)/home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(root)/(tabs)/home.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/(root)/(tabs)/profile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(root)/(tabs)/profile.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/(root)/(tabs)/rides.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(root)/(tabs)/rides.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/(root)/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(root)/_layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/OAuth.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/OAuth.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/fetch.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/lib/fetch.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(root)/book-ride.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(root)/book-ride.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(root)/confirm-ride.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(root)/confirm-ride.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/DriverCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/DriverCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/GoogleTextInput.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/GoogleTextInput.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/Map.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Map.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/Payment.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Payment.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/fetch.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/fetch.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/map.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/map.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
@@ -97,6 +79,7 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
@@ -105,6 +88,7 @@
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;com.google.services.firebase.aqiPopupShown&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/codea/AndroidStudioProjects/Uberclone/assets/icons&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
@@ -112,6 +96,9 @@
   }
 }</component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\codea\AndroidStudioProjects\Uberclone\assets\icons" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\codea\AndroidStudioProjects\Uberclone\app\(api)" />
       <recent name="C:\Users\codea\AndroidStudioProjects\Uberclone\app" />
@@ -153,7 +140,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772452984702</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="maps added with open street map rider card added &#10;driver card added &#10;payement gateway added">
+      <option name="closed" value="true" />
+      <created>1772707743271</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1772707743271</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -164,6 +159,7 @@
     <MESSAGE value="23-2-26" />
     <MESSAGE value="signup page &#10;signin page &#10;auth in process" />
     <MESSAGE value="added auth featurew and verification of email and home tab bar" />
-    <option name="LAST_COMMIT_MESSAGE" value="added auth featurew and verification of email and home tab bar" />
+    <MESSAGE value="maps added with open street map rider card added &#10;driver card added &#10;payement gateway added" />
+    <option name="LAST_COMMIT_MESSAGE" value="maps added with open street map rider card added &#10;driver card added &#10;payement gateway added" />
   </component>
 </project>

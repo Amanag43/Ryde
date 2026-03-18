@@ -1,4 +1,4 @@
-import { View, Image, TextInput, FlatList, Text, TouchableOpacity } from "react-native";
+import { View, Image, TextInput, Text, TouchableOpacity } from "react-native";
 import { useState } from "react";
 import { icons } from "@/constants/onboarding";
 import { GoogleInputProps } from "@/types/type";
@@ -92,9 +92,7 @@ const GoogleTextInput = ({
       </View>
 
       {results.length > 0 && (
-        <FlatList
-          data={results}
-          keyExtractor={(item) => item.place_id?.toString()}
+        <View
           style={{
             backgroundColor: "white",
             borderRadius: 10,
@@ -105,9 +103,12 @@ const GoogleTextInput = ({
             shadowRadius: 4,
             elevation: 5,
             maxHeight: 200,
+            overflow: "hidden",
           }}
-          renderItem={({ item }) => (
+        >
+          {results.map((item) => (
             <TouchableOpacity
+              key={item.place_id?.toString()}
               onPress={() => handleSelect(item)}
               style={{
                 padding: 12,
@@ -119,8 +120,8 @@ const GoogleTextInput = ({
                 {item.display_name}
               </Text>
             </TouchableOpacity>
-          )}
-        />
+          ))}
+        </View>
       )}
     </View>
   );
