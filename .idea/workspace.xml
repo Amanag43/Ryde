@@ -4,41 +4,10 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="27ec28a4-6a8b-4d6c-b038-9e84d3bb73f2" name="Changes" comment="added auth featurew and verification of email and home tab bar">
-      <change afterPath="$PROJECT_DIR$/app/(api)/(stripe)/create+api.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/(api)/(stripe)/pay+api.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/deviceManager.xml" beforeDir="false" />
+    <list default="true" id="27ec28a4-6a8b-4d6c-b038-9e84d3bb73f2" name="Changes" comment="FIles updated">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/(auth)/sign-up.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(auth)/sign-up.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/(root)/(tabs)/home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(root)/(tabs)/home.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/(root)/book-ride.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(root)/book-ride.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/(root)/confirm-ride.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(root)/confirm-ride.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/icons/rupee.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/DriverCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/DriverCard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/GoogleTextInput.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/GoogleTextInput.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/Map.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Map.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/Payment.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Payment.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eas.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/fetch.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/fetch.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/map.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/map.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ryde-backend/.next/dev/logs/next-development.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ryde-backend/.next/dev/types/cache-life.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ryde-backend/.next/dev/types/routes.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ryde-backend/.next/dev/types/validator.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ryde-backend/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ryde-backend/package-lock.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ryde-backend/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ryde-backend/postcss.config.mjs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ryde-backend/public/file.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ryde-backend/public/globe.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ryde-backend/public/next.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ryde-backend/public/vercel.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ryde-backend/public/window.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ryde-backend/tsconfig.json" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,7 +70,7 @@
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "com.google.services.firebase.aqiPopupShown": "true",
-    "git-widget-placeholder": "Reverting in main",
+    "git-widget-placeholder": "main",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.17",
     "project.structure.side.proportion": "0.2",
@@ -150,7 +119,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772452984702</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="FIles updated">
+      <option name="closed" value="true" />
+      <created>1773863803302</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1773863803302</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -172,6 +149,7 @@
     <MESSAGE value="23-2-26" />
     <MESSAGE value="signup page &#10;signin page &#10;auth in process" />
     <MESSAGE value="added auth featurew and verification of email and home tab bar" />
-    <option name="LAST_COMMIT_MESSAGE" value="added auth featurew and verification of email and home tab bar" />
+    <MESSAGE value="FIles updated" />
+    <option name="LAST_COMMIT_MESSAGE" value="FIles updated" />
   </component>
 </project>
