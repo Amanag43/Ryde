@@ -1,0 +1,24 @@
+{
+  "cli": {
+    "version": ">= 18.4.0",
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "npm": { "ci": false }
+    },
+    "preview": {
+      "distribution": "internal",
+      "npm": { "ci": false }
+    },
+    "production": {
+      "autoIncrement": true,
+      "npm": { "ci": false }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}
