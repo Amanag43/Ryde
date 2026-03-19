@@ -6,6 +6,7 @@ name: "Uber",
 slug: "uber",
 version: "1.0.0",
 orientation: "portrait",
+owner: "amanag",
 icon: "./assets/images/icon.png",
 scheme: "uberclone",
 userInterfaceStyle: "automatic",
@@ -13,6 +14,11 @@ splash: {
 image: "./assets/images/splash.png",
 resizeMode: "contain",
 backgroundColor: "#ffffff",
+},
+extra:{
+eas:{
+projectId: "17e2170e-f739-4da3-bff2-e1f1a79fb2a7"
+}
 },
 ios: {
 supportsTablet: true,
@@ -35,19 +41,12 @@ output: "server",
 favicon: "./assets/images/favicon.png",
 },
 plugins: [
-[
-"react-native-maps",  // ✅ added
-{
-googleMapsApiKey: process.env.EXPO_PUBLIC_GOOGLE_API_KEY,
-},
-],
-[
-"@stripe/stripe-react-native",  // ✅ added
-{
-merchantIdentifier: "merchant.com.yourapp",
-enableGooglePay: false,
-},
-],
+ [
+    "@rnmapbox/maps",
+    {
+      RNMapboxMapsDownloadToken: process.env.EXPO_PUBLIC_MAPBOX_TOKEN,
+    }
+  ],
 [
 "expo-location",  // ✅ added
 {
