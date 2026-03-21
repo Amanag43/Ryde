@@ -11,7 +11,7 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import 'react-native-reanimated'
 import { tokenCache } from '@clerk/clerk-expo/token-cache'
 export const unstable_settings = {
-  anchor: '(tabs)',
+  anchor: '(root)',
 }
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -49,7 +49,6 @@ export default function RootLayout() {
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         <Stack.Screen name="(root)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
       </Stack>
       <StatusBar style="auto" />
