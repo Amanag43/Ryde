@@ -195,11 +195,6 @@ CREATE TABLE rides (
 );
 ```
 
----
-
-## 📸 Screenshots
-
-> Coming soon — add your app screenshots here
 
 ---
 
@@ -225,6 +220,10 @@ Serverless PostgreSQL with zero cold starts, perfect for Expo API routes that sp
 ---
 
 ## 📄 License
+
+https://github.com/user-attachments/assets/216b4a1f-75c1-46bd-9abb-52b3e0c648ea
+
+
 
 This project is open source and available under the [MIT License](LICENSE).
 
