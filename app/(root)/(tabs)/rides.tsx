@@ -13,8 +13,7 @@ const Rides = () => {
   const {
     data: recentRides,
     loading,
-    error,
-  } = useFetch<Ride[]>(`/(api)/ride/${user?.id}`);
+  } = useFetch<Ride[]>(user?.id ? `/ride/${user.id}` : null as any);
 
   return (
     <SafeAreaView className="flex-1 bg-white">

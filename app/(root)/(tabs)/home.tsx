@@ -1,17 +1,16 @@
 import { useUser } from "@clerk/clerk-expo";
 import * as Location from "expo-location";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { FlatList, View, Text, Image, ActivityIndicator, TouchableOpacity } from "react-native";
+import { FlatList, View, Text, Image, ActivityIndicator, TouchableOpacity, Platform } from "react-native";
 import RideCard from "@/components/RideCard";
-import { images } from "@/constants/onboarding";
-import { icons } from "@/constants/onboarding";
+import { images, icons } from "@/constants/onboarding";
 import GoogleTextInput from "@/components/GoogleTextInput";
 import { useLocationStore } from "@/store";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import Map from "@/components/Map";
 import { useFetch } from "@/lib/fetch";
-import { useAuth, useUser as useClerkUser } from "@clerk/clerk-expo";
+import { useAuth } from "@clerk/clerk-expo";
 
 export default function Page() {
   const { setUserLocation, setDestinationLocation } = useLocationStore();
@@ -19,16 +18,13 @@ export default function Page() {
   const { signOut } = useAuth();
   const router = useRouter();
 
-  // ✅ Fixed URL — absolute with server URL
-  const { data: recentRides, loading } = useFetch(
-    `${process.env.EXPO_PUBLIC_SERVER_URL}/(api)/ride/${user?.id}`
+  const { data: recentRides, loading } = useFetch<any[]>(
+    user?.id ? `/ride/${user.id}` : null as any
   );
-
-  const [hasPermissions, setHasPermissions] = useState(false);
 
   const handleSignOut = () => {
     signOut();
-    router.replace("/(auth)/sign-in");
+    router.replace("/sign-in");
   };
 
   const handleDestinationPress = (location: {
@@ -37,40 +33,53 @@ export default function Page() {
     address: string;
   }) => {
     setDestinationLocation(location);
-    router.push("/(root)/find-ride");
+    router.push("/find-ride");
   };
+
   const DEFAULT_LOCATION = {
-    latitude: 28.6139,   // Delhi
+    latitude: 28.6139,
     longitude: 77.2090,
-    address: "Delhi",
+    address: "Delhi, India",
   };
 
   useEffect(() => {
     const requestLocation = async () => {
       try {
+        console.log("📍 Requesting location permissions...");
         let { status } = await Location.requestForegroundPermissionsAsync();
 
         if (status !== "granted") {
-          setHasPermissions(false);
+          console.log("❌ Location permission denied");
           setUserLocation(DEFAULT_LOCATION);
-
-          return; // ✅ just return, no forced location
+          return;
         }
 
-        let location = await Location.getCurrentPositionAsync({});
+        console.log("🛰️ Fetching current position...");
+        // ✅ Fast position fetch for UI responsiveness
+        let location = await Location.getCurrentPositionAsync({
+            accuracy: Platform.OS === 'android' ? Location.Accuracy.Low : Location.Accuracy.Balanced,
+        });
+
+        console.log("📍 Location found:", location.coords.latitude, location.coords.longitude);
+
         const address = await Location.reverseGeocodeAsync({
           latitude: location.coords.latitude,
           longitude: location.coords.longitude,
         });
+
+        const formattedAddress = address[0]
+          ? `${address[0].name || ''}, ${address[0].city || address[0].region || ''}`.trim()
+          : "Current Location";
+
         setUserLocation({
           latitude: location.coords.latitude,
           longitude: location.coords.longitude,
-          address: `${address[0].name}, ${address[0].region}`,
+          address: formattedAddress || "Current Location",
         });
 
       } catch (error) {
-        console.error("Location error:", error);
-        // ✅ no fallback — just silently fail
+        console.error("❌ Location error:", error);
+        setUserLocation(DEFAULT_LOCATION);
       }
     };
     requestLocation();
@@ -79,8 +88,9 @@ export default function Page() {
   return (
     <SafeAreaView className="flex-1 bg-general-500">
       <FlatList
-        data={recentRides?.slice(0, 5)}
+        data={recentRides}
         renderItem={({ item }) => <RideCard ride={item} />}
+        keyExtractor={(item, index) => index.toString()}
         className="px-5"
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={{ paddingBottom: 100 }}
@@ -105,7 +115,7 @@ export default function Page() {
           <>
             <View className="flex flex-row items-center justify-between my-5">
               <Text className="text-2xl font-JakartaExtraBold">
-                Welcome {user?.firstName}👋
+                Welcome {user?.firstName || 'Rider'}👋
               </Text>
               <TouchableOpacity
                 onPress={handleSignOut}
@@ -125,12 +135,12 @@ export default function Page() {
               <Text className="text-xl font-JakartaBold mt-5 mb-3">
                 Your current location
               </Text>
-              {/* ✅ Fixed — removed flex-row which was blocking gestures */}
               <View
                 style={{
                   height: 300,
                   borderRadius: 16,
-                  overflow: "hidden", // ✅ rounded corners
+                  overflow: "hidden",
+                  backgroundColor: "#e5e7eb",
                 }}
               >
                 <Map />

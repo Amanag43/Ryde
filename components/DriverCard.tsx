@@ -6,19 +6,16 @@ import { formatTime } from "@/lib/utils";
 import { DriverCardProps } from "@/types/type";
 
 const DriverCard = ({ item, selected, setSelected }: DriverCardProps) => {
-  // ✅ Build avatar URL safely
   const avatarUrl = item.profile_image_url
     ? item.profile_image_url
-    : `https://ui-avatars.com/api/?name=${encodeURIComponent(item.first_name)}+${encodeURIComponent(item.last_name)}&background=0286FF&color=fff&size=128`;
+    : `https://ui-avatars.com/api/?name=${encodeURIComponent(item.first_name || 'D')}+${encodeURIComponent(item.last_name || 'R')}&background=0286FF&color=fff&size=128`;
 
   return (
     <TouchableOpacity
       onPress={setSelected}
       className={`${
-        selected === item.id ? "bg-general-600" : "bg-white"
       } flex flex-row items-center justify-between py-5 px-3 rounded-xl`}
     >
-      {/* ✅ Fixed — using style instead of className for dimensions */}
       <Image
         source={{ uri: avatarUrl }}
         style={{ width: 56, height: 56, borderRadius: 28 }}
@@ -58,12 +55,15 @@ const DriverCard = ({ item, selected, setSelected }: DriverCardProps) => {
         </View>
       </View>
 
-      {/* ✅ Fixed car image too */}
-      <Image
-        source={{ uri: item.car_image_url }}
-        style={{ width: 56, height: 56 }}
-        resizeMode="contain"
-      />
+      {item.car_image_url ? (
+        <Image
+          source={{ uri: item.car_image_url }}
+          style={{ width: 56, height: 56 }}
+          resizeMode="contain"
+        />
+      ) : (
+        <View style={{ width: 56, height: 56 }} />
+      )}
     </TouchableOpacity>
   );
 };

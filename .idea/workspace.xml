@@ -5,9 +5,36 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="27ec28a4-6a8b-4d6c-b038-9e84d3bb73f2" name="Changes" comment="FIles updated">
+      <change afterPath="$PROJECT_DIR$/metro.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(api)/ride/[id]+api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/(api)/ride/[id]+api.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(auth)/sign-in.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(auth)/sign-in.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(auth)/sign-up.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(auth)/sign-up.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(auth)/welcome.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(auth)/welcome.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(root)/(tabs)/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(root)/(tabs)/_layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(root)/(tabs)/home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(root)/(tabs)/home.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(root)/(tabs)/rides.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(root)/(tabs)/rides.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/_layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eas.json" beforeDir="false" afterPath="$PROJECT_DIR$/eas.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/babel.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/babel.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/CustomButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/CustomButton.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/DriverCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/DriverCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/GoogleTextInput.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/GoogleTextInput.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/InputField.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/InputField.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/Map.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Map.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/OAuth.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/OAuth.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/Payment.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Payment.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/RideCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/RideCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/RideLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/RideLayout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/expo-env.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/expo-env.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/global.css" beforeDir="false" afterPath="$PROJECT_DIR$/global.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/fetch.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/fetch.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/map.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/map.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tailwind.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/tailwind.config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,6 +91,7 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
@@ -71,10 +99,12 @@
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;com.google.services.firebase.aqiPopupShown&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Ryde&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.general&quot;
   }
 }</component>
   <component name="RecentsManager">

@@ -94,7 +94,7 @@ const GoogleTextInput = ({
       {results.length > 0 && (
         <FlatList
           data={results}
-          keyExtractor={(item) => item.place_id?.toString()}
+          keyExtractor={(item, index) => `${item.place_id}-${index}`}
           style={{
             backgroundColor: "white",
             borderRadius: 10,

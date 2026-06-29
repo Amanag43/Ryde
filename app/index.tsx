@@ -1,17 +1,22 @@
-import { Redirect } from "expo-router";
+import { Redirect, useRootNavigationState } from "expo-router";
 import { useAuth } from "@clerk/clerk-expo";
+import { ActivityIndicator, View } from "react-native";
 
 export default function Index() {
   const { isSignedIn, isLoaded } = useAuth();
+  const rootNavigationState = useRootNavigationState();
 
-  // Wait until Clerk loads
-  if (!isLoaded) return null;
-
-  // If logged in → go to app
-  if (isSignedIn) {
-    return <Redirect href="/(root)/(tabs)/home" />;
+  if (!isLoaded || !rootNavigationState?.key) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "white" }}>
+        <ActivityIndicator size="large" color="#0286FF" />
+      </View>
+    );
   }
 
-  // If not logged in → go to welcome/auth
-  return <Redirect href="/(auth)/welcome" />;
+  if (isSignedIn) {
+    return <Redirect href="/home" />;
+  }
+
+  return <Redirect href="/welcome" />;
 }

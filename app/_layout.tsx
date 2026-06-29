@@ -1,21 +1,30 @@
-import "../global.css";
-import { Stack } from "expo-router";
-import { StatusBar } from "expo-status-bar";
-import * as SplashScreen from "expo-splash-screen";
-import { useFonts } from "expo-font";
-import { useEffect } from "react";
-import { SafeAreaProvider } from "react-native-safe-area-context";
-import { useColorScheme } from 'react-native'
-import { ClerkProvider } from '@clerk/clerk-expo'
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
-import 'react-native-reanimated'
-import { tokenCache } from '@clerk/clerk-expo/token-cache'
-export const unstable_settings = {
-  anchor: '(root)',
+// 1. Polyfill WeakRef for Hermes/Clerk compatibility - MUST BE AT THE TOP
+if (typeof WeakRef === "undefined") {
+  // @ts-ignore
+  global.WeakRef = class WeakRef {
+    target: any;
+    constructor(target: any) { this.target = target; }
+    deref() { return this.target; }
+  };
 }
+
+import { ClerkProvider } from "@clerk/clerk-expo";
+import { DarkTheme, DefaultTheme, ThemeProvider } from "@react-navigation/native";
+import { useFonts } from "expo-font";
+import { Stack } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
+import { useEffect } from "react";
+import { useColorScheme } from "react-native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import "react-native-reanimated";
+
+import "../global.css";
+import { tokenCache } from "@/lib/auth";
+
+SplashScreen.preventAutoHideAsync();
+
 export default function RootLayout() {
   const colorScheme = useColorScheme();
-
   const [loaded] = useFonts({
     "Jakarta-Bold": require("../assets/fonts/PlusJakartaSans-Bold.ttf"),
     "Jakarta-ExtraBold": require("../assets/fonts/PlusJakartaSans-ExtraBold.ttf"),
@@ -27,33 +36,27 @@ export default function RootLayout() {
   });
 
   useEffect(() => {
-    SplashScreen.preventAutoHideAsync();
-  }, []);
-
-  useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
     }
   }, [loaded]);
 
-  if (!loaded) {
-    return null;
-  }
+  if (!loaded) return null;
+
+  const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
 
   return (
-    <>
-    <ClerkProvider publishableKey={process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY}>
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="index" options={{ headerShown: false }} />
-        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-        <Stack.Screen name="(root)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-      </Stack>
-      <StatusBar style="auto" />
-      </ThemeProvider>
-            </ClerkProvider>
-    </>
+    <ClerkProvider tokenCache={tokenCache} publishableKey={publishableKey}>
+      <SafeAreaProvider>
+        <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="index" />
+            <Stack.Screen name="(auth)" />
+            <Stack.Screen name="(root)" />
+            <Stack.Screen name="+not-found" />
+          </Stack>
+        </ThemeProvider>
+      </SafeAreaProvider>
+    </ClerkProvider>
   );
 }

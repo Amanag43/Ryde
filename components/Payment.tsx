@@ -34,11 +34,11 @@ const Payment = ({
     try {
       const options = {
         description: "Ride Payment",
-        image: "https://i.imgur.com/3g7nmJC.png", // ✅ your app logo
+        image: "https://i.imgur.com/3g7nmJC.png",
         currency: "INR",
         key: process.env.EXPO_PUBLIC_RAZORPAY_KEY_ID!,
-        amount: parseInt(amount) * 100, // ✅ Razorpay takes amount in paise
-        name: "Uber Clone",
+        amount: parseInt(amount) * 100,
+        name: "Ryde",
         prefill: {
           email: email,
           contact: "",
@@ -47,12 +47,11 @@ const Payment = ({
         theme: { color: "#0286FF" },
       };
 
-      // ✅ Open Razorpay payment sheet
       const data = await RazorpayCheckout.open(options);
 
-      // ✅ Payment successful — save ride to database
       if (data.razorpay_payment_id) {
-        await fetchAPI(`${process.env.EXPO_PUBLIC_SERVER_URL}/(api)/ride/create`, {
+        // ✅ Removed (api) group from URL
+        await fetchAPI(`${process.env.EXPO_PUBLIC_SERVER_URL}/ride/create`, {
           method: "POST",
           body: JSON.stringify({
             origin_address: userAddress,
@@ -72,11 +71,7 @@ const Payment = ({
         setSuccess(true);
       }
     } catch (error: any) {
-      // ✅ User cancelled or payment failed
-      if (error.code === 2) {
-        // code 2 = user cancelled — don't show error
-        return;
-      }
+      if (error.code === 2) return;
       Alert.alert("Payment Failed", error.description || "Something went wrong");
     }
   };
@@ -109,7 +104,7 @@ const Payment = ({
             title="Back Home"
             onPress={() => {
               setSuccess(false);
-              router.push("/(root)/(tabs)/home");
+              router.push("/home");
             }}
             className="mt-5"
           />

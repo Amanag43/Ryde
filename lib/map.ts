@@ -34,8 +34,8 @@ export const calculateRegion = ({
 }) => {
   if (userLatitude == null || userLongitude == null) {
     return {
-      latitude: 28.6139,   // ✅ Default to Delhi instead of San Francisco
-      longitude: 77.2090,
+      latitude: 24.2679,   // Default to Jharkhand
+      longitude: 87.2410,
       latitudeDelta: 0.01,
       longitudeDelta: 0.01,
     };
@@ -58,57 +58,109 @@ export const calculateRegion = ({
   return {
     latitude: (userLatitude + destinationLatitude) / 2,
     longitude: (userLongitude + destinationLongitude) / 2,
-    latitudeDelta: (maxLat - minLat) * 1.3,
-    longitudeDelta: (maxLng - minLng) * 1.3,
+    latitudeDelta: Math.max((maxLat - minLat) * 1.5, 0.01),
+    longitudeDelta: Math.max((maxLng - minLng) * 1.5, 0.01),
   };
 };
 
-const getOSRMDuration = async (
+// ─── Haversine straight-line distance ────────────────────────────────────────
+const haversineDistance = (
+  lat1: number,
+  lng1: number,
+  lat2: number,
+  lng2: number
+): number => {
+  const R = 6371e3; // metres
+  const toRad = (v: number) => (v * Math.PI) / 180;
+  const dLat = toRad(lat2 - lat1);
+  const dLng = toRad(lng2 - lng1);
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) ** 2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+};
+
+// ─── Try OSRM, fall back to haversine silently ───────────────────────────────
+const getDuration = async (
   fromLat: number,
   fromLng: number,
   toLat: number,
   toLng: number
 ): Promise<{ duration: number; distance: number }> => {
+  const fallback = () => {
+    const distance = haversineDistance(fromLat, fromLng, toLat, toLng);
+    return { duration: (distance / 1000 / 40) * 3600, distance };
+  };
+
   try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 5000); // 5s timeout
+
     const response = await fetch(
-      `https://router.project-osrm.org/route/v1/driving/${fromLng},${fromLat};${toLng},${toLat}?overview=false`
+      `https://router.project-osrm.org/route/v1/driving/${fromLng},${fromLat};${toLng},${toLat}?overview=false`,
+      { signal: controller.signal }
     );
+    clearTimeout(timeout);
+
     const data = await response.json();
     if (data.routes && data.routes.length > 0) {
       return {
-        duration: data.routes[0].duration, // seconds
-        distance: data.routes[0].distance, // meters
+        duration: data.routes[0].duration,
+        distance: data.routes[0].distance,
       };
     }
-  } catch (err) {
-    console.error("OSRM error:", err);
+  } catch {
+    // OSRM unavailable or timed out — use haversine
   }
 
-  // Fallback — straight line estimate
-  const R = 6371e3;
-  const dLat = ((toLat - fromLat) * Math.PI) / 180;
-  const dLng = ((toLng - fromLng) * Math.PI) / 180;
-  const a =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos((fromLat * Math.PI) / 180) *
-      Math.cos((toLat * Math.PI) / 180) *
-      Math.sin(dLng / 2) ** 2;
-  const distance = R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return {
-    duration: (distance / 1000 / 40) * 3600,
-    distance,
-  };
+  return fallback();
 };
 
-// ✅ Realistic Indian Uber pricing
+// ─── Fetch full route geometry from OSRM, fall back to straight line ─────────
+export const fetchRouteCoords = async (
+  userLat: number,
+  userLng: number,
+  destLat: number,
+  destLng: number
+): Promise<{ latitude: number; longitude: number }[]> => {
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 6000);
+
+    const response = await fetch(
+      `https://router.project-osrm.org/route/v1/driving/${userLng},${userLat};${destLng},${destLat}?overview=full&geometries=geojson`,
+      { signal: controller.signal }
+    );
+    clearTimeout(timeout);
+
+    const data = await response.json();
+    if (data.routes && data.routes.length > 0) {
+      return data.routes[0].geometry.coordinates.map((coord: number[]) => ({
+        latitude: coord[1],
+        longitude: coord[0],
+      }));
+    }
+  } catch {
+    // fall through
+  }
+
+  // ✅ Fallback: straight-line between the two points
+  console.warn("OSRM unavailable — using straight-line route");
+  return [
+    { latitude: userLat, longitude: userLng },
+    { latitude: destLat, longitude: destLng },
+  ];
+};
+
+// ─── Realistic Indian Uber pricing ───────────────────────────────────────────
 const calculatePrice = (distanceMeters: number): string => {
   const distanceKm = distanceMeters / 1000;
-  const baseFare = 30;          // ₹30 base fare
-  const perKmRate = 12;         // ₹12 per km
-  const total = baseFare + distanceKm * perKmRate;
-  return Math.round(total).toString(); // ✅ round to whole number — no decimals
+  const baseFare = 30;    // ₹30 base fare
+  const perKmRate = 12;   // ₹12 per km
+  return Math.round(baseFare + distanceKm * perKmRate).toString();
 };
 
+// ─── Driver times ─────────────────────────────────────────────────────────────
 export const calculateDriverTimes = async ({
   markers,
   userLatitude,
@@ -131,7 +183,7 @@ export const calculateDriverTimes = async ({
     return;
 
   try {
-    const userToDestination = await getOSRMDuration(
+    const userToDestination = await getDuration(
       userLatitude,
       userLongitude,
       destinationLatitude,
@@ -139,20 +191,21 @@ export const calculateDriverTimes = async ({
     );
 
     const timesPromises = markers.map(async (marker) => {
-      const driverToUser = await getOSRMDuration(
+      const driverToUser = await getDuration(
         marker.latitude,
         marker.longitude,
         userLatitude,
         userLongitude
       );
 
-      const totalTimeMinutes = (driverToUser.duration + userToDestination.duration) / 60;
+      const totalTimeMinutes =
+        (driverToUser.duration + userToDestination.duration) / 60;
       const totalDistance = driverToUser.distance + userToDestination.distance;
 
       return {
         ...marker,
-        time: Math.round(totalTimeMinutes * 10) / 10, // ✅ 1 decimal e.g. 6.5
-        price: calculatePrice(totalDistance),          // ✅ ₹ based on distance
+        time: Math.round(totalTimeMinutes * 10) / 10,
+        price: calculatePrice(totalDistance),
       };
     });
 
