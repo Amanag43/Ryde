@@ -48,8 +48,6 @@ export default {
         },
       ],
       "expo-router",
-      {
-                "origin": "https://ryde-2-9rtdevwao-aman-agarwals-projects-8c114b7b.vercel.app"
       "expo-secure-store",
       "expo-font",
     ],
