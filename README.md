@@ -1,234 +1,247 @@
 <div align="center">
-  <h1>🚗 Ryde</h1>
-  <p><strong>A production-grade ride-hailing mobile application built for the Indian market</strong></p>
 
-  <p>
-    <img src="https://img.shields.io/badge/React_Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" />
-    <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" />
-    <img src="https://img.shields.io/badge/Expo-000020?style=for-the-badge&logo=expo&logoColor=white" />
-    <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" />
-    <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" />
-  </p>
+# 🚕 Ryde
 
-  <p>
-    <a href="https://github.com/Amanag43/Ryde/stargazers"><img src="https://img.shields.io/github/stars/Amanag43/Ryde?style=social" /></a>
-    <a href="https://github.com/Amanag43/Ryde/network/members"><img src="https://img.shields.io/github/forks/Amanag43/Ryde?style=social" /></a>
-  </p>
+**A full-stack ride-hailing app built with React Native, Expo, and serverless Postgres.**
+
+Real-time-feeling driver matching, live route calculation, dynamic INR pricing, and Razorpay checkout — all running on a single Expo codebase with no standalone backend server.
+
+[![Expo](https://img.shields.io/badge/Expo-52-000020?logo=expo)](https://expo.dev)
+[![React Native](https://img.shields.io/badge/React%20Native-0.76-61DAFB?logo=react)](https://reactnative.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.3-3178C6?logo=typescript)](https://www.typescriptlang.org)
+[![Postgres](https://img.shields.io/badge/Neon-Postgres-00E599?logo=postgresql)](https://neon.tech)
+
 </div>
 
 ---
 
-## 📱 Overview
+## Overview
 
-**Ryde** is a full-stack ride-hailing mobile application inspired by Uber, built natively for Android using React Native and Expo. The app features real-time maps, driver tracking, secure authentication, and seamless payments — fully localized for the Indian market with INR pricing and Razorpay integration.
+Ryde is an Uber-style ride-hailing app for the Indian market. A rider signs in, sets a pickup and destination, sees nearby drivers priced and ETA'd against a real routing engine, picks one, and pays via Razorpay — with the ride persisted to a serverless Postgres database.
 
-> Built as a showcase of production-level mobile development skills including full-stack architecture, native maps, OAuth, real-time location tracking, and payment gateway integration.
-
----
-
-## ✨ Features
-
-- 🔐 **Secure Authentication** — Google OAuth + email/password via Clerk with JWT sessions
-- 🗺️ **Real-Time Maps** — Native Mapbox SDK with live driver locations and road routing
-- 📍 **GPS Location Tracking** — Real-time user location with expo-location
-- 🔍 **Place Search** — Smart autocomplete powered by Photon/Nominatim API
-- 🚗 **Driver Matching** — Intelligent driver assignment with ETA and pricing calculations
-- 💳 **Razorpay Payments** — UPI, Cards, NetBanking support — fully localized for India
-- 📊 **Ride History** — Complete ride tracking stored in PostgreSQL
-- 🎨 **Polished UI** — NativeWind (Tailwind CSS) with smooth animations and gestures
-- 🌙 **Bottom Sheet UI** — Smooth ride confirmation flow with `@gorhom/bottom-sheet`
+The interesting engineering decision here is architectural: instead of a separate Express/Nest backend, **Expo Router's file-based API routes double as serverless functions**, running right alongside the client code and talking directly to [Neon](https://neon.tech) (serverless Postgres) over the `@neondatabase/serverless` driver. One codebase, one deploy, shared TypeScript types between client and "server."
 
 ---
 
-## 🛠️ Tech Stack
+## Features
 
-### Frontend
-| Technology | Purpose |
-|---|---|
-| React Native (Expo) | Cross-platform mobile framework |
-| TypeScript | Type-safe development |
-| NativeWind / Tailwind CSS | Utility-first styling |
-| Expo Router | File-based navigation |
-| Zustand | Lightweight global state management |
-
-### Backend & Database
-| Technology | Purpose |
-|---|---|
-| Expo API Routes | Serverless backend endpoints |
-| NeonDB (PostgreSQL) | Serverless relational database |
-| Sequelize ORM | Database query management |
-
-### Authentication
-| Technology | Purpose |
-|---|---|
-| Clerk | OAuth + email auth, JWT sessions |
-
-### Maps & Location
-| Technology | Purpose |
-|---|---|
-| Mapbox SDK (`@rnmapbox/maps`) | Native map rendering |
-| OSRM | Free road routing engine |
-| Photon API | Free place search & geocoding |
-| expo-location | Device GPS access |
-
-### Payments
-| Technology | Purpose |
-|---|---|
-| Razorpay | UPI, Cards, NetBanking (India) |
+- **Authentication** — Google OAuth and email/password via [Clerk](https://clerk.com), with sessions cached securely on-device (`expo-secure-store`).
+- **Location & search** — current-location detection (`expo-location`) plus destination search-as-you-type powered by the free [Photon](https://photon.komoot.io) geocoding API.
+- **Live map** — Google Maps rendering via `react-native-maps`, with driver markers, a destination pin, and an animated route polyline.
+- **Real routing, not straight lines** — driver ETA and route geometry are computed against [OSRM](http://project-osrm.org/), with a **haversine-distance fallback** if the routing service is slow or unreachable, so the UI never hangs on a third-party outage.
+- **Dynamic fare calculation** — computed per-driver from real driving distance (base fare + per-km rate), not a flat estimate.
+- **Ride booking & payments** — Razorpay Checkout integration for INR payments, with ride records persisted on successful payment.
+- **Ride history** — past rides joined with driver details (name, photo, car, rating) in a single query.
+- **Resilient networking** — every API call is wrapped with timeouts (`AbortController`) and defensive JSON parsing, with clear console diagnostics when a route 404s or returns unexpected content.
 
 ---
 
-## 📂 Project Structure
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| App framework | Expo 52 / React Native 0.76 / TypeScript 5.3 |
+| Navigation | Expo Router (file-based, typed routes) |
+| Styling | NativeWind (Tailwind for React Native) |
+| State management | Zustand |
+| Auth | Clerk (`@clerk/clerk-expo`) |
+| Database | Neon serverless Postgres (`@neondatabase/serverless`) |
+| "Backend" | Expo Router API routes (`app/(api)/**/+api.ts`) |
+| Maps | `react-native-maps` (Google provider) |
+| Routing / ETA | OSRM public router, haversine fallback |
+| Geocoding / search | Photon (Komoot / OpenStreetMap) |
+| Payments | Razorpay (`react-native-razorpay`) |
+
+> **Note:** earlier drafts of this project experimented with Mapbox and a Sequelize ORM layer. The shipped implementation uses `react-native-maps` (Google provider) and raw parameterized SQL via the Neon driver instead — this README reflects what's actually running.
+
+---
+
+## Architecture
 
 ```
-Ryde/
-├── app/
-│   ├── (auth)/               # Sign in, Sign up, Onboarding
-│   ├── (root)/
-│   │   ├── (tabs)/           # Home, Rides, Chat, Profile
-│   │   ├── find-ride.tsx     # Location search screen
-│   │   ├── confirm-ride.tsx  # Driver selection screen
-│   │   └── book-ride.tsx     # Booking & payment screen
-│   └── (api)/                # Backend API routes
-│       ├── driver+api.ts
-│       ├── user+api.ts
-│       ├── ride+api.ts
-│       └── directions+api.ts
-├── components/
-│   ├── Map.tsx               # Mapbox native map component
-│   ├── GoogleTextInput.tsx   # Place search input
-│   ├── DriverCard.tsx        # Driver listing card
-│   ├── RideCard.tsx          # Ride history card
-│   ├── Payment.tsx           # Razorpay payment component
-│   └── RideLayout.tsx        # Shared ride screen layout
-├── lib/
-│   ├── fetch.ts              # API client with auth headers
-│   ├── map.ts                # Map utilities & driver time calculation
-│   └── utils.ts              # Shared utility functions
-├── store/                    # Zustand global state
-└── types/                    # TypeScript type definitions
+┌──────────────────────────┐
+│   React Native (Expo)    │
+│  ┌─────────────────────┐ │
+│  │  Zustand stores      │ │   useLocationStore · useDriverStore
+│  ├─────────────────────┤ │
+│  │  Map / Search / Pay  │ │   react-native-maps · Photon · Razorpay
+│  └──────────┬──────────┘ │
+└─────────────┼────────────┘
+              │  fetchAPI() — timeouts + defensive parsing
+              ▼
+┌──────────────────────────┐
+│ Expo Router API Routes   │   app/(api)/**/+api.ts
+│  /user  /driver  /ride/* │   (serverless functions)
+└─────────────┬────────────┘
+              │  parameterized SQL (tagged templates)
+              ▼
+┌──────────────────────────┐
+│   Neon Serverless Postgres│
+│   users · drivers · rides │
+└──────────────────────────┘
+
+External services: Clerk (auth) · OSRM (routing) · Photon (geocoding) · Razorpay (payments)
+```
+
+### Data flow, request to booking
+
+1. User authenticates via Clerk → first-time sign-up provisions a row in `users`.
+2. Pickup is auto-detected or typed; destination is searched via Photon.
+3. `GET /driver` returns all drivers; each is placed on the map near the rider's location to simulate nearby availability.
+4. For every driver, the app calls OSRM to get driver→pickup and pickup→destination durations/distances (parallelized, with a haversine fallback per call), then derives ETA and fare.
+5. User selects a driver and confirms → Razorpay Checkout opens.
+6. On successful payment, `POST /ride/create` persists the ride.
+7. `GET /ride/[id]` returns the rider's full ride history with driver details joined in.
+
+---
+
+## Database Schema
+
+```sql
+users
+  id, clerk_id, name, email, created_at
+
+drivers
+  id, first_name, last_name, profile_image_url,
+  car_image_url, car_seats, rating
+
+rides
+  ride_id, origin_address, destination_address,
+  origin_latitude, origin_longitude,
+  destination_latitude, destination_longitude,
+  ride_time, fare_price, payment_status,
+  driver_id (FK → drivers.id), user_id, created_at
 ```
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
 - Node.js 18+
-- Android Studio + Android SDK
-- JDK 17
-- Expo CLI
+- npm or yarn
+- Expo Go app (for quick device testing) or Android Studio / Xcode for emulators
+- A [Neon](https://neon.tech) Postgres database
+- A [Clerk](https://clerk.com) application
+- A [Razorpay](https://razorpay.com) account (test-mode keys are fine for development)
+- A Google Cloud project with Maps SDK enabled
 
 ### Installation
 
 ```bash
-# Clone the repo
 git clone https://github.com/Amanag43/Ryde.git
 cd Ryde
-
-# Install dependencies
 npm install
 ```
 
-### Environment Variables
+### Environment variables
 
-Create a `.env` file in the root:
-
-```env
-EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_key
-DATABASE_URL=your_neondb_url
-EXPO_PUBLIC_SERVER_URL=http://YOUR_LOCAL_IP:8081
-EXPO_PUBLIC_MAPBOX_TOKEN=pk.your_mapbox_token
-EXPO_PUBLIC_RAZORPAY_KEY_ID=rzp_test_your_key
-RAZORPAY_KEY_SECRET=your_razorpay_secret
-```
-
-### Running the App
+Create a `.env` file in the project root:
 
 ```bash
-# Start the development server
-npx expo start --dev-client
-
-# Build for Android (first time or after adding native libraries)
-npx expo run:android
+EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+EXPO_PUBLIC_SERVER_URL=your_deployed_or_local_server_url
+EXPO_PUBLIC_GOOGLE_API_KEY=your_google_maps_api_key
+EXPO_PUBLIC_RAZORPAY_KEY_ID=your_razorpay_key_id
+EXPO_PUBLIC_GEOAPIFY_API_KEY=your_geoapify_key   # optional, used for auxiliary geocoding
+DATABASE_URL=your_neon_postgres_connection_string
 ```
 
----
+### Database setup
 
-## 🗄️ Database Schema
+Run the following against your Neon database before first use:
 
 ```sql
--- Users table
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
-  name VARCHAR(100),
-  email VARCHAR(100) UNIQUE,
-  clerk_id VARCHAR(100) UNIQUE
+  clerk_id TEXT UNIQUE NOT NULL,
+  name TEXT NOT NULL,
+  email TEXT UNIQUE NOT NULL,
+  created_at TIMESTAMP DEFAULT NOW()
 );
 
--- Drivers table
 CREATE TABLE drivers (
   id SERIAL PRIMARY KEY,
-  first_name VARCHAR(50),
-  last_name VARCHAR(50),
+  first_name TEXT NOT NULL,
+  last_name TEXT NOT NULL,
   profile_image_url TEXT,
   car_image_url TEXT,
-  car_seats INTEGER,
-  rating DECIMAL(3,2)
+  car_seats INTEGER NOT NULL,
+  rating NUMERIC(2,1)
 );
 
--- Rides table
 CREATE TABLE rides (
   ride_id SERIAL PRIMARY KEY,
-  origin_address TEXT,
-  destination_address TEXT,
-  origin_latitude DECIMAL,
-  origin_longitude DECIMAL,
-  destination_latitude DECIMAL,
-  destination_longitude DECIMAL,
-  ride_time INTEGER,
-  fare_price DECIMAL,
-  payment_status VARCHAR(20),
+  origin_address TEXT NOT NULL,
+  destination_address TEXT NOT NULL,
+  origin_latitude DOUBLE PRECISION NOT NULL,
+  origin_longitude DOUBLE PRECISION NOT NULL,
+  destination_latitude DOUBLE PRECISION NOT NULL,
+  destination_longitude DOUBLE PRECISION NOT NULL,
+  ride_time INTEGER NOT NULL,
+  fare_price NUMERIC NOT NULL,
+  payment_status TEXT NOT NULL,
   driver_id INTEGER REFERENCES drivers(id),
-  user_id VARCHAR(100)
+  user_id TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT NOW()
 );
 ```
 
+### Run it
+
+```bash
+npx expo start
+```
+
+Scan the QR code with Expo Go, or press `a` / `i` for an Android/iOS emulator.
 
 ---
 
-## 🔑 Key Technical Decisions
+## Project Structure
 
-**Why Mapbox over Google Maps?**
-Mapbox offers a generous free tier (50k loads/month) with no credit card required, native SDK performance, and full road routing built-in — replacing Leaflet/WebView, OSRM, and OpenStreetMap separately.
-
-**Why Razorpay over Stripe?**
-Razorpay is purpose-built for India — supporting UPI, NetBanking, and all major Indian payment methods with INR as the default currency. Stripe has limited India support.
-
-**Why NeonDB?**
-Serverless PostgreSQL with zero cold starts, perfect for Expo API routes that spin up on demand.
+```
+app/
+├── (api)/              # Serverless API routes
+│   ├── user+api.ts
+│   ├── driver+api.ts
+│   └── ride/
+│       ├── create+api.ts
+│       └── [id]+api.ts
+├── (auth)/              # Sign-in, sign-up, welcome
+├── (root)/
+│   ├── (tabs)/          # home, rides, chat, profile
+│   ├── book-ride.tsx
+│   ├── confirm-ride.tsx
+│   └── find-ride.tsx
+components/               # Map, Payment, GoogleTextInput, DriverCard, RideCard, ...
+lib/                       # fetch.ts, map.ts (routing/pricing), auth.ts, utils.ts
+store/                     # Zustand stores
+types/                     # Shared TypeScript types
+```
 
 ---
 
-## 👨‍💻 Author
+## Known Limitations & Roadmap
 
-**Aman Agarwal**
-- GitHub: [@Amanag43](https://github.com/Amanag43)
-- LinkedIn: [linkedin.com/in/aman-agarwal-396921245](https://linkedin.com/in/aman-agarwal-396921245)
+Being direct about what this project doesn't do yet, because pretending otherwise helps no one:
+
+- **Payment verification is client-trusted.** Razorpay's success callback is taken at face value; there's no server-side HMAC signature verification against the Razorpay secret before marking a ride `paid`. Planned: a `/ride/verify-payment` route that recomputes and checks the signature server-side.
+- **Driver locations are simulated**, not real GPS — markers are placed near the rider with a random offset for demo purposes. Planned: a driver-side location channel (WebSocket or short-poll) with geospatial querying (PostGIS or Redis GEO) to serve real "nearby drivers."
+- **No booking concurrency control** — two riders could theoretically book the same driver simultaneously. Planned: a driver `status` column with a conditional update pattern to prevent double-booking.
+- **API routes are not session-verified server-side** — they trust client-supplied identifiers rather than deriving the user from the verified Clerk session. Planned: server-side Clerk auth checks on every route.
+- **No surge/time-based pricing** — fare is distance-only (`base + per-km`); duration and demand aren't factored in yet.
 
 ---
 
-## 📄 License
+## License
 
-https://github.com/user-attachments/assets/216b4a1f-75c1-46bd-9abb-52b3e0c648ea
-
-
-
-This project is open source and available under the [MIT License](LICENSE).
+This project is available for educational and portfolio purposes.
 
 ---
 
 <div align="center">
-  <p>If you found this project helpful, please consider giving it a ⭐</p>
+
+Built with React Native, Expo, and a healthy respect for what "demo-ready" vs. "production-ready" actually means.
+
 </div>
