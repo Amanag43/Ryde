@@ -36,7 +36,7 @@ const DriverCard = ({ item, selected, setSelected }: DriverCardProps) => {
         </View>
 
         <View className="flex flex-row items-center justify-start">
-          <Text className="text-sm font-JakartaRegular">₹{item.price}</Text>
+            <Text className="text-sm font-JakartaRegular">{item.price ? `₹${item.price}` : "Fare pending"}</Text>
 
           <Text className="text-sm font-JakartaRegular text-general-800 mx-1">
             |

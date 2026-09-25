@@ -17,6 +17,8 @@ export const generateMarkersFromData = ({
       longitude: userLongitude + lngOffset,
       title: `${driver.first_name} ${driver.last_name}`,
       ...driver,
+      // The database uses `id`; older API responses may expose `driver_id`.
+      id: driver.id ?? driver.driver_id,
     };
   });
 };

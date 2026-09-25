@@ -1,6 +1,7 @@
 import {TextInputProps, TouchableOpacityProps} from "react-native";
 
 declare interface Driver {
+id?: number;
 driver_id: number;
 first_name: string;
 last_name: string;
@@ -135,5 +136,5 @@ declare interface DriverStore {
 declare interface DriverCardProps {
     item: MarkerData;
     selected: number;
-    setSelected: () => void;
+    setSelected: (id?: number) => void;
 }
